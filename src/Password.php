@@ -1,0 +1,62 @@
+<?php
+
+namespace Marcelofabianov;
+
+use Marcelofabianov\Hash;
+use Marcelofabianov\Exception\PasswordIsNotSecureException;
+
+class Password
+{
+    private readonly string $value;
+
+    private static int $min = 10;
+    private static int $maxRangeMake = 33;
+
+    private function __construct(string $value)
+    {
+        $this->value = $value;
+    }
+
+    public function get(): string
+    {
+        return $this->value;
+    }
+
+    public static function hash(string $value): Password
+    {
+        if (!self::isValid($value)) {
+            throw new PasswordIsNotSecureException();
+        }
+        return new Password(Hash::make($value)->get());
+    }
+
+    public static function isValid(string $value): bool
+    {
+        return preg_match('/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{10,255}$/', $value);
+    }
+
+    public static function make(): Password
+    {
+        $digits    = array_flip(range('0', '9'));
+        $lowercase = array_flip(range('a', 'z'));
+        $uppercase = array_flip(range('A', 'Z'));
+        $special   = array_flip(str_split('!@#$%^&*-'));
+        $combined  = array_merge($digits, $lowercase, $uppercase, $special);
+
+        $value = str_shuffle(array_rand($digits)
+            .array_rand($lowercase).array_rand($uppercase)
+            .array_rand($special)
+            .implode(array_rand($combined, random_int(self::$min, random_int(self::$min+1, self::$maxRangeMake)))));
+
+        return self::create($value);
+    }
+
+    public static function create(string $value): Password
+    {
+        if (!self::isValid($value)) {
+            throw new PasswordIsNotSecureException();
+        }
+
+        return new Password($value);
+    }
+}

@@ -41,3 +41,4 @@ $RECYCLE.BIN/
 /.vscode
 /vendor/
 composer.phar
+docker-compose.yml

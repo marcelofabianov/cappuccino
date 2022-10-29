@@ -1,16 +1,24 @@
 {
-  "name": "marcelofabianov/value-objects",
-  "type": "package",
-  "license": "MIT",
-  "require": {
-    "php": ">=8.1",
-    "ext-json": "*",
-    "ramsey/uuid": "^4.5"
-  },
-  "autoload": {
-    "psr-4": {
-      "Marcelofabianov\\": "src/"
-    }
-  },
-  "prefer-stable": true
+    "name": "marcelofabianov/value-objects",
+    "type": "package",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*",
+        "ramsey/uuid": "^4.5",
+        "nesbot/carbon": "^2.62",
+        "illuminate/support": "^9.37",
+        "illuminate/http": "^9.37",
+        "illuminate/contracts": "^9.37"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Marcelofabianov\\": "src/"
+        }
+    },
+    "prefer-stable": true
 }
