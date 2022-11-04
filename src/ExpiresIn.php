@@ -1,8 +1,8 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Exception\DateInvalidFormatException;
+use Cappuccino\Exception\DateInvalidFormatException;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use ErrorException;

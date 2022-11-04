@@ -1,5 +1,5 @@
 {
-    "name": "marcelofabianov/value-objects",
+    "name": "marcelofabianov/cappuccino",
     "type": "package",
     "license": "MIT",
     "require": {
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Marcelofabianov\\": "src/"
+            "Cappuccino\\": "src/"
         }
     },
     "prefer-stable": true

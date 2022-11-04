@@ -1,8 +1,8 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Exception\IdInvalidException;
+use Cappuccino\Exception\IdInvalidException;
 use Ramsey\Uuid\Uuid;
 
 class Id
@@ -36,7 +36,7 @@ class Id
         }
 
         if (!self::isValid($value)) {
-            throw new IdInvalidException(StatusCode::HTTP_BAD_REQUEST);
+            throw new IdInvalidException();
         }
 
         return new Id($value);

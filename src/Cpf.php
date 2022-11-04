@@ -1,11 +1,11 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Enum\RegistrationDocumentEnum;
-use Marcelofabianov\Shared\ApplyMask;
-use Marcelofabianov\Interfaces\IRegistrationDocument;
-use Marcelofabianov\Exception\InvalidRegistrationDocumentException;
+use Cappuccino\Enum\RegistrationDocumentEnum;
+use Cappuccino\Shared\ApplyMask;
+use Cappuccino\Interfaces\IRegistrationDocument;
+use Cappuccino\Exception\InvalidRegistrationDocumentException;
 
 class Cpf implements IRegistrationDocument
 {
@@ -85,10 +85,7 @@ class Cpf implements IRegistrationDocument
     public static function create(string $value): Cpf
     {
         if (!self::isValid($value)) {
-            throw new InvalidRegistrationDocumentException(
-                self::type(),
-                StatusCode::create(StatusCode::HTTP_BAD_REQUEST)
-            );
+            throw new InvalidRegistrationDocumentException(self::type());
         }
 
         return new Cpf(self::sanitize($value));

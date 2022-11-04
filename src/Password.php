@@ -1,9 +1,8 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Hash;
-use Marcelofabianov\Exception\PasswordIsNotSecureException;
+use Cappuccino\Exception\PasswordIsNotSecureException;
 
 class Password
 {

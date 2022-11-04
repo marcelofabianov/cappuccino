@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
 use Illuminate\Support\Facades\Hash as HashMake;
 

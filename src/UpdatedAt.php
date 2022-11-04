@@ -1,25 +1,22 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
-use Marcelofabianov\Exception\DateInvalidFormatException;
+use Cappuccino\Exception\DateInvalidFormatException;
 use ErrorException;
 
 class UpdatedAt
 {
     private readonly CarbonInterface $value;
     private static string $defaultDateFormat = 'Y-m-d H:i:s';
-    private static StatusCode $statusCode;
 
-    private function __construct(string|null $value, StatusCode|null $defaultStatusCodeException)
+    private function __construct(string|null $value)
     {
         $this->value = is_null($value)
             ? Carbon::now()
             : Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
-
-        self::$statusCode = $defaultStatusCodeException ?? StatusCode::create(StatusCode::HTTP_BAD_REQUEST);
     }
 
     public static function getDefaultDateFormat(): string
@@ -32,7 +29,7 @@ class UpdatedAt
         return $this->value;
     }
 
-    public static function create(string|null $value = null, StatusCode|null $defaultStatusCodeException = null): UpdatedAt
+    public static function create(string|null $value = null): UpdatedAt
     {
         if (!is_null($value)) {
             self::isValid($value);
@@ -46,7 +43,7 @@ class UpdatedAt
         try {
             Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
         } catch (ErrorException $e) {
-            throw new DateInvalidFormatException('UpdatedAt', self::$statusCode);
+            throw new DateInvalidFormatException('UpdatedAt');
         }
 
         return true;
@@ -59,7 +56,7 @@ class UpdatedAt
                 ? getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat)
                 : $format);
         } catch (ErrorException $e) {
-            throw new DateInvalidFormatException('UpdatedAt', self::$statusCode);
+            throw new DateInvalidFormatException('UpdatedAt');
         }
 
         return $date;

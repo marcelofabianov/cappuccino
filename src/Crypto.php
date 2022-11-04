@@ -1,21 +1,19 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
-use Marcelofabianov\Exception\FailDecryptException;
+use Cappuccino\Exception\FailDecryptException;
 
 class Crypto
 {
     private readonly string $value;
     private bool $encrypt;
-    private StatusCode $defaultStatusCode;
 
-    private function __construct(string $value, bool $encrypt, StatusCode|null $defaultStatusCode)
+    private function __construct(string $value, bool $encrypt)
     {
         $this->value = $encrypt ? $this->encrypt($value) : $value;
-        $this->defaultStatusCode = $defaultStatusCode ?? StatusCode::create(StatusCode::HTTP_BAD_REQUEST);
     }
 
     public function get(): string
@@ -36,7 +34,7 @@ class Crypto
         try {
             $value = Crypt::decryptString($this->value);
         } catch (DecryptException $e) {
-            throw new FailDecryptException($this->defaultStatusCode);
+            throw new FailDecryptException();
         }
 
         return $value;
@@ -47,8 +45,8 @@ class Crypto
         return $this->encrypt;
     }
 
-    public static function create(string $value, bool $encrypt = true, StatusCode|null $defaultStatusCode = null): Crypto
+    public static function create(string $value, bool $encrypt = true): Crypto
     {
-        return new Crypto($value, $encrypt, $defaultStatusCode);
+        return new Crypto($value, $encrypt);
     }
 }

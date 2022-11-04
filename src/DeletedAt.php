@@ -1,25 +1,22 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
 use Carbon\CarbonInterface;
 use Carbon\Carbon;
 use ErrorException;
-use Marcelofabianov\Exception\DateInvalidFormatException;
+use Cappuccino\Exception\DateInvalidFormatException;
 
 class DeletedAt
 {
     private readonly CarbonInterface|null $value;
     private static string $defaultDateFormat = 'Y-m-d H:i:s';
-    private static StatusCode $statusCode;
 
-    private function __construct(string|null $value, StatusCode|null $defaultStatusCodeException)
+    private function __construct(string|null $value)
     {
         $this->value = is_null($value)
             ? null
             : Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
-
-        self::$statusCode = $defaultStatusCodeException ?? StatusCode::create(StatusCode::HTTP_BAD_REQUEST);
     }
 
     public static function getDefaultDateFormat(): string
@@ -32,7 +29,7 @@ class DeletedAt
         return $this->value;
     }
 
-    public static function create(string|null $value, StatusCode|null $defaultStatusCodeException = null): DeletedAt
+    public static function create(string|null $value): DeletedAt
     {
         if (!is_null($value)) {
             self::isValid($value);
@@ -46,7 +43,7 @@ class DeletedAt
         try {
             Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
         } catch (\ErrorException $e) {
-            throw new DateInvalidFormatException('DeletedAt', self::$statusCode);
+            throw new DateInvalidFormatException('DeletedAt');
         }
 
         return true;
@@ -61,7 +58,7 @@ class DeletedAt
                     ? getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat)
                     : $format);
             } catch (ErrorException $e) {
-                throw new DateInvalidFormatException('DeletedAt', self::$statusCode);
+                throw new DateInvalidFormatException('DeletedAt');
             }
         }
         return $date;

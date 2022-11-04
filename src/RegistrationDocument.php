@@ -1,11 +1,9 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Cnpj;
-use Marcelofabianov\Cpf;
-use Marcelofabianov\Exception\FailCreateRegistrationDocumentException;
-use Marcelofabianov\Interfaces\IRegistrationDocument;
+use Cappuccino\Exception\FailCreateRegistrationDocumentException;
+use Cappuccino\Interfaces\IRegistrationDocument;
 
 class RegistrationDocument
 {
@@ -35,8 +33,6 @@ class RegistrationDocument
             return new RegistrationDocument(Cpf::create($value));
         }
 
-        throw new FailCreateRegistrationDocumentException(
-            StatusCode::create(StatusCode::HTTP_BAD_REQUEST)
-        );
+        throw new FailCreateRegistrationDocumentException();
     }
 }

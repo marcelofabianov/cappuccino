@@ -1,10 +1,8 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Exception\InvalidStatusCodeException;
-use Marcelofabianov\Interfaces\IResponse;
-use Marcelofabianov\StatusCode;
+use Cappuccino\Interfaces\IResponse;
 use Illuminate\Http\JsonResponse;
 
 class ErrorResponse implements IResponse

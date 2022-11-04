@@ -1,14 +1,13 @@
 <?php
 
-namespace Marcelofabianov\Exception;
+namespace Cappuccino\Exception;
 
-use Marcelofabianov\Enum\RegistrationDocumentEnum;
-use Marcelofabianov\StatusCode;
+use Cappuccino\Enum\RegistrationDocumentEnum;
 
 class InvalidRegistrationDocumentException extends \ErrorException
 {
-    public function __construct(RegistrationDocumentEnum $type, StatusCode $statusCode)
+    public function __construct(RegistrationDocumentEnum $type, int $code = 500)
     {
-        parent::__construct($type->value.': invalid format', $statusCode->code());
+        parent::__construct($type->value.': invalid format', $code);
     }
 }

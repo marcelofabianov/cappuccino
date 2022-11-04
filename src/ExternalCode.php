@@ -1,20 +1,18 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Exception\ExternalCodeInvalidException;
+use Cappuccino\Exception\ExternalCodeInvalidException;
 use Ramsey\Uuid\Uuid;
 
 class ExternalCode
 {
     private readonly string|int $value;
 
-    private function __construct(string|int|null $value, StatusCode|null $defaultStatusCodeException)
+    private function __construct(string|int|null $value)
     {
-        $statusCode = $defaultStatusCodeException ?? StatusCode::create(StatusCode::HTTP_BAD_REQUEST);
-
         if (!is_null($value) and !self::isValid($value)) {
-            throw new ExternalCodeInvalidException($statusCode);
+            throw new ExternalCodeInvalidException();
         }
 
         $this->value = $value ?? self::make();
@@ -43,8 +41,8 @@ class ExternalCode
         return $this->value;
     }
 
-    public static function create(string|int|null $value = null, StatusCode|null $statusCode = null): ExternalCode
+    public static function create(string|int|null $value = null): ExternalCode
     {
-        return new self($value, $statusCode);
+        return new self($value);
     }
 }

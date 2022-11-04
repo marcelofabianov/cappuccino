@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcelofabianov\Enum;
+namespace Cappuccino\Enum;
 
 enum RegistrationDocumentEnum: string
 {

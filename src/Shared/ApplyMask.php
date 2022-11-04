@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcelofabianov\Shared;
+namespace Cappuccino\Shared;
 
 class ApplyMask
 {

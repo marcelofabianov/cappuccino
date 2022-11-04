@@ -1,8 +1,8 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Exception\InvalidStatusCodeException;
+use Cappuccino\Exception\InvalidStatusCodeException;
 
 class StatusCode
 {
@@ -103,7 +103,7 @@ class StatusCode
     public static function create(int $code)
     {
         if (self::isValidCode($code)) {
-            throw new InvalidStatusCodeException(new StatusCode(self::HTTP_BAD_REQUEST));
+            throw new InvalidStatusCodeException();
         }
 
         return new StatusCode($code);
@@ -126,7 +126,7 @@ class StatusCode
 
     public static function getMessages(): array
     {
-        return (new self())->messages;
+        return (new self(200))->messages;
     }
 
     public static function isValidCode(int $code = null): bool

@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcelofabianov\Interfaces;
+namespace Cappuccino\Interfaces;
 
 use Illuminate\Http\JsonResponse;
 

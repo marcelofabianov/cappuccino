@@ -1,9 +1,8 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Interfaces\IResponse;
-use Marcelofabianov\StatusCode;
+use Cappuccino\Interfaces\IResponse;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
 

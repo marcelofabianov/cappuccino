@@ -1,13 +1,11 @@
 <?php
 
-namespace Marcelofabianov\Exception;
-
-use Marcelofabianov\StatusCode;
+namespace Cappuccino\Exception;
 
 class ExternalCodeInvalidException extends \ErrorException
 {
-    public function __construct(StatusCode $statusCode)
+    public function __construct(int $code = 500)
     {
-        parent::__construct('External code invalid', $statusCode->code());
+        parent::__construct('External code invalid', $code);
     }
 }

@@ -1,16 +1,12 @@
 <?php
 
-namespace Marcelofabianov\Exception;
-
-use Marcelofabianov\StatusCode;
+namespace Cappuccino\Exception;
 
 class PasswordIsNotSecureException extends \ErrorException
 {
-    public function __construct(StatusCode|null $statusCode = null)
+    public function __construct(int $code = 500)
     {
-        $statusCode = $statusCode ?? StatusCode::create(StatusCode::HTTP_BAD_REQUEST);
-
         parent::__construct('The password to be secure must contain 10 characters
-        including numbers, uppercase and lowercase letters and a symbol', $statusCode->code());
+        including numbers, uppercase and lowercase letters and a symbol', $code);
     }
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Exception\InvalidEmailException;
+use Cappuccino\Exception\InvalidEmailException;
 
 class Email
 {
     private readonly string $value;
-    private static StatusCode $statusCode;
 
     private function __construct(string $value)
     {
@@ -34,12 +33,10 @@ class Email
         return true;
     }
 
-    public static function create(string $value, StatusCode|null $statusCode = null): Email
+    public static function create(string $value): Email
     {
         if (!self::isValid($value)) {
-            throw new InvalidEmailException(
-                StatusCode::create(StatusCode::HTTP_BAD_REQUEST)
-            );
+            throw new InvalidEmailException();
         }
 
         return new Email($value);

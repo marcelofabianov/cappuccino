@@ -1,8 +1,8 @@
 <?php
 
-namespace Marcelofabianov\Interfaces;
+namespace Cappuccino\Interfaces;
 
-use Marcelofabianov\Enum\RegistrationDocumentEnum;
+use Cappuccino\Enum\RegistrationDocumentEnum;
 
 interface IRegistrationDocument
 {

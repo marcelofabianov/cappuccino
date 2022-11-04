@@ -1,11 +1,11 @@
 <?php
 
-namespace Marcelofabianov;
+namespace Cappuccino;
 
-use Marcelofabianov\Enum\RegistrationDocumentEnum;
-use Marcelofabianov\Shared\ApplyMask;
-use Marcelofabianov\Exception\InvalidRegistrationDocumentException;
-use Marcelofabianov\Interfaces\IRegistrationDocument;
+use Cappuccino\Enum\RegistrationDocumentEnum;
+use Cappuccino\Shared\ApplyMask;
+use Cappuccino\Exception\InvalidRegistrationDocumentException;
+use Cappuccino\Interfaces\IRegistrationDocument;
 
 class Cnpj implements IRegistrationDocument
 {
@@ -100,10 +100,7 @@ class Cnpj implements IRegistrationDocument
     public static function create(string $value): Cnpj
     {
         if (!self::isValid($value)) {
-            throw new InvalidRegistrationDocumentException(
-                self::type(),
-                StatusCode::create(StatusCode::HTTP_BAD_REQUEST)
-            );
+            throw new InvalidRegistrationDocumentException(self::type());
         }
 
         return new Cnpj($value);

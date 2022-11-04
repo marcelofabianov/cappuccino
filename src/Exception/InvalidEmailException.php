@@ -1,15 +1,11 @@
 <?php
 
-namespace Marcelofabianov\Exception;
-
-use Marcelofabianov\StatusCode;
+namespace Cappuccino\Exception;
 
 class InvalidEmailException extends \ErrorException
 {
-    public function __construct(StatusCode|null $statusCode = null)
+    public function __construct(int $code = 500)
     {
-        $statusCode = $statusCode ?? StatusCode::create(StatusCode::HTTP_BAD_REQUEST);
-
-        parent::__construct('Email with invalid format', $statusCode->code());
+        parent::__construct('Email with invalid format', $code);
     }
 }
