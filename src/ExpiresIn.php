@@ -55,14 +55,14 @@ class ExpiresIn
     public function hasPassed($measure = 'minutes'): bool
     {
         $now = Carbon::now();
-        $diff = $this->diff($measure, $now);
+        $diff = $this->diff($now, $measure);
         return $diff < 0;
     }
 
     public function itIsFuture($measure = 'minutes'): bool
     {
         $now = Carbon::now();
-        $diff = $this->diff($measure, $now);
+        $diff = $this->diff($now, $measure);
         return $diff > 0;
     }
 
