@@ -15,7 +15,7 @@ class Json
 
     public function encode(): string|bool
     {
-        if (is_string($this->value)) {
+        if (is_array($this->value)) {
             return json_encode($this->value, JSON_THROW_ON_ERROR);
         }
         return false;
@@ -23,7 +23,7 @@ class Json
 
     public function decode(): stdClass|bool
     {
-        if (is_array($this->value)) {
+        if (is_string($this->value)) {
             return json_decode($this->value, false, 512, JSON_THROW_ON_ERROR);
         }
         return false;
