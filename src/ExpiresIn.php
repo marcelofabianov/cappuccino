@@ -43,6 +43,29 @@ class ExpiresIn
         return true;
     }
 
+    private function diff(CarbonInterface $before, $measure = 'minutes'): int
+    {
+        return match ($measure) {
+            'hours' => $before->diffInHours($this->value, false),
+            'days' => $before->diffInDays($this->value, false),
+            default => $before->diffInMinutes($this->value, false),
+        };
+    }
+
+    public function hasPassed($measure = 'minutes'): bool
+    {
+        $now = Carbon::now();
+        $diff = $this->diff($measure, $now);
+        return $diff < 0;
+    }
+
+    public function itIsFuture($measure = 'minutes'): bool
+    {
+        $now = Carbon::now();
+        $diff = $this->diff($measure, $now);
+        return $diff > 0;
+    }
+
     public function format(string|null $format = null): string
     {
         $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
