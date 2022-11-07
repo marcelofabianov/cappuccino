@@ -14,9 +14,8 @@ class UpdatedAt
 
     private function __construct(string|null $value)
     {
-        $this->value = is_null($value)
-            ? Carbon::now()
-            : Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
+        $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
+        $this->value = is_null($value) ? Carbon::now() : Carbon::createFromFormat($defaultFormat, $value);
     }
 
     public static function getDefaultDateFormat(): string
@@ -40,8 +39,10 @@ class UpdatedAt
 
     public static function isValid(string $value): bool
     {
+        $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
+
         try {
-            Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
+            Carbon::createFromFormat($defaultFormat, $value);
         } catch (ErrorException $e) {
             throw new DateInvalidFormatException('UpdatedAt');
         }
@@ -51,10 +52,10 @@ class UpdatedAt
 
     public function format(string|null $format = null): string
     {
+        $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
+
         try {
-            $date = $this->value->format(is_null($format)
-                ? getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat)
-                : $format);
+            $date = $this->value->format($format ?? $defaultFormat);
         } catch (ErrorException $e) {
             throw new DateInvalidFormatException('UpdatedAt');
         }

@@ -42,3 +42,4 @@ $RECYCLE.BIN/
 /vendor/
 composer.phar
 docker-compose.yml
+index.php

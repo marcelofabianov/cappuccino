@@ -14,10 +14,8 @@ class ExpiresIn
 
     private function __construct(string $value)
     {
-        $this->value = Carbon::createFromFormat(
-            getenv('DEFAULT_DATE_FORMAT',
-                self::$defaultDateFormat
-            ), $value);
+        $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
+        $this->value = Carbon::createFromFormat($defaultFormat, $value);
     }
 
     public function get(): CarbonInterface
@@ -34,8 +32,10 @@ class ExpiresIn
 
     public static function isValid(string $value): bool
     {
+        $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
+
         try {
-            Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
+            Carbon::createFromFormat($defaultFormat, $value);
         } catch (\ErrorException $e) {
             throw new DateInvalidFormatException('ExpiresIn');
         }
@@ -45,10 +45,10 @@ class ExpiresIn
 
     public function format(string|null $format = null): string
     {
+        $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
+
         try {
-            $date = $this->value->format(is_null($format)
-                ? getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat)
-                : $format);
+            $date = $this->value->format($format ?? $defaultFormat);
         } catch (ErrorException $e) {
             throw new DateInvalidFormatException('ExpiresIn');
         }

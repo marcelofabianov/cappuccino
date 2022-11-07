@@ -14,9 +14,8 @@ class DeletedAt
 
     private function __construct(string|null $value)
     {
-        $this->value = is_null($value)
-            ? null
-            : Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
+        $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
+        $this->value = is_null($value) ? null : Carbon::createFromFormat($defaultFormat, $value);
     }
 
     public static function getDefaultDateFormat(): string
@@ -40,8 +39,9 @@ class DeletedAt
 
     public static function isValid(string $value): bool
     {
+        $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
         try {
-            Carbon::createFromFormat(getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat), $value);
+            Carbon::createFromFormat($defaultFormat, $value);
         } catch (\ErrorException $e) {
             throw new DateInvalidFormatException('DeletedAt');
         }
@@ -54,9 +54,8 @@ class DeletedAt
         $date = null;
         if (!is_null($this->value)) {
             try {
-                $date = $this->value->format(is_null($format)
-                    ? getenv('DEFAULT_DATE_FORMAT', self::$defaultDateFormat)
-                    : $format);
+                $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
+                $date = $this->value->format($format ?? $defaultFormat);
             } catch (ErrorException $e) {
                 throw new DateInvalidFormatException('DeletedAt');
             }
