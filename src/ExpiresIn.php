@@ -46,9 +46,9 @@ class ExpiresIn
     private function diff(CarbonInterface $compare, $measure = 'minutes'): int
     {
         return match ($measure) {
-            'hours' => $this->value->diffInHours($compare, false),
-            'days' => $this->value->diffInDays($compare, false),
-            default => $this->value->diffInMinutes($compare, false),
+            'hours' => $compare->diffInHours($this->value, false),
+            'days' => $compare->diffInDays($this->value, false),
+            default => $compare->diffInMinutes($this->value, false),
         };
     }
 
