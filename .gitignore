@@ -48,3 +48,4 @@ index.php
 /app/phpunit.xml
 /phpunit.xml
 /build/
+*.cache
