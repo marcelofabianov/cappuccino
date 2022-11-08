@@ -63,7 +63,7 @@ class ExpiresIn
     {
         $now = Carbon::now();
         $diff = $this->diff($now, $measure);
-        return $diff > 0;
+        return $diff >= 0;
     }
 
     public function format(string|null $format = null): string
