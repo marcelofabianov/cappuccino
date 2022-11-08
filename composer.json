@@ -7,9 +7,10 @@
         "ext-json": "*",
         "ramsey/uuid": "^4.5",
         "nesbot/carbon": "^2.62",
-        "illuminate/support": "^9.37",
-        "illuminate/http": "^9.37",
-        "illuminate/contracts": "^9.37"
+        "illuminate/support": "^9.38",
+        "illuminate/http": "^9.38",
+        "illuminate/contracts": "^9.38",
+        "foroco/php-browser-detection": "^2.3"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
