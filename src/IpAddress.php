@@ -46,7 +46,6 @@ class IpAddress
         } else {
             $ipAddress = 'UNKNOWN';
         }
-        return $ipAddress;
 
         return self::create($ipAddress);
     }
