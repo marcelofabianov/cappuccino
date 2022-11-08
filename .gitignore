@@ -43,3 +43,8 @@ $RECYCLE.BIN/
 composer.phar
 docker-compose.yml
 index.php
+.phpunit.result.cache
+.phpunit.cache
+/app/phpunit.xml
+/phpunit.xml
+/build/
