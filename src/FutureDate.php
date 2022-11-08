@@ -9,7 +9,7 @@ use ErrorException;
 
 class FutureDate
 {
-    private readonly CarbonInterface $value;
+    private CarbonInterface $value;
     private static string $defaultDateFormat = 'Y-m-d H:i:s';
 
     private function __construct()
@@ -37,7 +37,7 @@ class FutureDate
 
     public function now(): self
     {
-        $this->value->now();
+        $this->value = $this->value->now();
         return $this;
     }
 
@@ -48,7 +48,7 @@ class FutureDate
 
     public function addHours(int $value): self
     {
-        $this->value->now()->addHours($value);
+        $this->value = $this->value->now()->addHours($value);
         return $this;
     }
 
@@ -59,7 +59,7 @@ class FutureDate
 
     public function addMinutes(int $value): self
     {
-        $this->value->now()->addMinutes($value);
+        $this->value = $this->value->now()->addMinutes($value);
         return $this;
     }
 
@@ -70,7 +70,7 @@ class FutureDate
 
     public function addDays(int $value): self
     {
-        $this->value->now()->addDays($value);
+        $this->value = $this->value->now()->addDays($value);
         return $this;
     }
 
