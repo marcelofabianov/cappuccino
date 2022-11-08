@@ -4,12 +4,17 @@ namespace Cappuccino;
 
 use foroco\BrowserDetection as Foroco;
 
-class BrowserDetection
+class ClientAgent
 {
     private readonly Foroco $browser;
     private readonly string $userAgent;
 
-    public function __construct()
+    public static function create(): self
+    {
+        return new self;
+    }
+
+    private function __construct()
     {
         $this->browser = new Foroco();
         $this->userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -20,7 +25,7 @@ class BrowserDetection
         return $this->browser->getAll($this->userAgent);
     }
 
-    public function getOS(): string
+    public function getOperationalSystem(): string
     {
         $data = $this->getAll();
         return $data['os_name'];
@@ -52,7 +57,7 @@ class BrowserDetection
     {
         return [
             'browser' => $this->getBrowser(),
-            'operationalSystem' => $this->getOS(),
+            'operationalSystem' => $this->getOperationalSystem(),
             'device' => $this->getDevice(),
             'ip' => $this->getIpAddress(),
             'hostname' => $this->getHostname()
