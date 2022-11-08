@@ -43,26 +43,26 @@ class ExpiresIn
         return true;
     }
 
-    private function diff(CarbonInterface $before, $measure = 'minutes'): int
+    private function diff(CarbonInterface $compare, $measure = 'minutes'): int
     {
         return match ($measure) {
-            'hours' => $this->value->diffInHours($before, false),
-            'days' => $this->value->diffInDays($before, false),
-            default => $this->value->diffInMinutes($before, false),
+            'hours' => $this->value->diffInHours($compare, false),
+            'days' => $this->value->diffInDays($compare, false),
+            default => $this->value->diffInMinutes($compare, false),
         };
     }
 
-    public function hasPassed($measure = 'minutes'): bool
+    public function hasPassed(CarbonInterface|null $compare = null, $measure = 'minutes'): bool
     {
-        $now = Carbon::now();
-        $diff = $this->diff($now, $measure);
+        $compare = $compare ?? Carbon::now();
+        $diff = $this->diff($compare, $measure);
         return $diff < 0;
     }
 
-    public function itIsFuture($measure = 'minutes'): bool
+    public function itIsFuture(CarbonInterface|null $compare = null, $measure = 'minutes'): bool
     {
-        $now = Carbon::now();
-        $diff = $this->diff($now, $measure);
+        $compare = $compare ?? Carbon::now();
+        $diff = $this->diff($compare, $measure);
         return $diff >= 0;
     }
 
