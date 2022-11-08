@@ -4,13 +4,13 @@ use Cappuccino\ExpiresIn;
 use Carbon\Carbon;
 
 test('should return true when the date is in the past', function () {
-    $yesterday = Carbon::yesterday();
-    $expiresIn = ExpiresIn::create($yesterday->format('Y-m-d H:i:s'));
+    $date1 = Carbon::now()->subSecond();
+    $expiresIn = ExpiresIn::create($date1);
     expect($expiresIn->hasPassed())->toBeTrue();
 });
 
 test('should return true when the date is in the future', function () {
-    $tomorrow = Carbon::tomorrow();
-    $expiresIn = ExpiresIn::create($tomorrow->format('Y-m-d H:i:s'));
+    $date1 = Carbon::now()->addSecond();
+    $expiresIn = ExpiresIn::create($date1);
     expect($expiresIn->itIsFuture())->toBeTrue();
 });

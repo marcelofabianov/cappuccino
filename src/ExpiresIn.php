@@ -43,23 +43,24 @@ class ExpiresIn
         return true;
     }
 
-    private function diff(CarbonInterface $compare, $measure = 'minutes'): int
+    private function diff(CarbonInterface $compare, $measure = 'seconds'): int
     {
         return match ($measure) {
             'hours' => $compare->diffInHours($this->value, false),
             'days' => $compare->diffInDays($this->value, false),
-            default => $compare->diffInMinutes($this->value, false),
+            'minutes' => $compare->diffInMinutes($this->value, false),
+            default => $compare->diffInSeconds($this->value, false),
         };
     }
 
-    public function hasPassed(CarbonInterface|null $compare = null, $measure = 'minutes'): bool
+    public function hasPassed(CarbonInterface|null $compare = null, $measure = 'seconds'): bool
     {
         $compare = $compare ?? Carbon::now();
         $diff = $this->diff($compare, $measure);
         return $diff < 0;
     }
 
-    public function itIsFuture(CarbonInterface|null $compare = null, $measure = 'minutes'): bool
+    public function itIsFuture(CarbonInterface|null $compare = null, $measure = 'seconds'): bool
     {
         $compare = $compare ?? Carbon::now();
         $diff = $this->diff($compare, $measure);
