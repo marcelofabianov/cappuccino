@@ -21,12 +21,9 @@ class Password
         return $this->value;
     }
 
-    public static function hash(string $value): Password
+    public function hash(): string
     {
-        if (!self::isValid($value)) {
-            throw new PasswordIsNotSecureException();
-        }
-        return new Password(Hash::make($value)->get());
+        return Hash::make($this->value)->get();
     }
 
     public static function isValid(string $value): bool
