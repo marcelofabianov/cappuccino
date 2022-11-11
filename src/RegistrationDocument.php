@@ -30,13 +30,13 @@ class RegistrationDocument
         return $this->value::type();
     }
 
-    public static function random(RegistrationDocumentEnum $type): IRegistrationDocument
+    public static function random(RegistrationDocumentEnum $type): self
     {
         if ($type === RegistrationDocumentEnum::CPF) {
-            return Cpf::random();
+            return new self(Cpf::random());
         }
         if ($type === RegistrationDocumentEnum::CNPJ) {
-            return Cnpj::random();
+            return new self(Cnpj::random());
         }
 
         throw new FailCreateRegistrationDocumentException();
