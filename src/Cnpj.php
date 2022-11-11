@@ -60,7 +60,7 @@ class Cnpj implements IRegistrationDocument
         return round($dividend - (floor($dividend / 11) * 11));
     }
 
-    public static function random(): Cnpj
+    public static function random(): self
     {
         $n1 = rand(0, 9);
         $n2 = rand(0, 9);

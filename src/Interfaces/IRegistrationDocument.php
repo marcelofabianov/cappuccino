@@ -11,4 +11,6 @@ interface IRegistrationDocument
     public function format(): string;
 
     public static function type(): RegistrationDocumentEnum;
+
+    public static function random(): self;
 }
