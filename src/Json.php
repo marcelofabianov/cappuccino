@@ -21,7 +21,7 @@ class Json
         return false;
     }
 
-    public function decode(): stdClass|bool
+    public function decode(): stdClass|array|bool
     {
         if (is_string($this->value)) {
             return json_decode($this->value, false, 512, JSON_THROW_ON_ERROR);
