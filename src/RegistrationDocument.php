@@ -42,6 +42,14 @@ class RegistrationDocument
         throw new FailCreateRegistrationDocumentException();
     }
 
+    public static function valid(string $value): bool
+    {
+        if (Cnpj::isValid($value) or Cpf::isValid($value)) {
+            return true;
+        }
+        return false;
+    }
+
     public static function create(string $value): RegistrationDocument
     {
         if (Cnpj::isValid($value)) {
