@@ -13,7 +13,7 @@ class ZipCode
         $this->value = $value;
     }
 
-    public function numbers(): int
+    public function numbers(): string
     {
         return self::sanitize($this->value);
     }
@@ -25,12 +25,17 @@ class ZipCode
 
     public static function isValid(string $value): bool
     {
-        return preg_match($value, "/^[0-9]{5}-[0-9]{3}$/") or preg_match($value, "/^[0-9]{8}$/");
+        return preg_match("/^(\d{8}|\d{2}\.?\d{3}\-\d{3})$/", $value);
     }
 
     public static function sanitize(string $value): string
     {
         return preg_replace("/[^0-9]/", "", $value);
+    }
+
+    public static function random(): string
+    {
+        return random_int(11111111, 99999999);
     }
 
     public static function create(string $value): self
@@ -39,6 +44,6 @@ class ZipCode
             throw new \Exception('Zipcode invalid!');
         }
 
-        return new ZipCode($value);
+        return new ZipCode(self::sanitize($value));
     }
 }
