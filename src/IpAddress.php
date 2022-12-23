@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Cappuccino\Exception\InvalidIpAddress;
@@ -52,7 +54,7 @@ class IpAddress
 
     public static function create(string $value): self
     {
-        if (!self::isValid($value)) {
+        if (! self::isValid($value)) {
             throw new InvalidIpAddress();
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Cappuccino\Exception\IdInvalidException;
@@ -29,16 +31,16 @@ class Id
         return $this->value;
     }
 
-    public static function create(string|null $value = null): Id
+    public static function create(string|null $value = null): self
     {
         if (is_null($value)) {
             $value = self::make();
         }
 
-        if (!self::isValid($value)) {
+        if (! self::isValid($value)) {
             throw new IdInvalidException();
         }
 
-        return new Id($value);
+        return new self($value);
     }
 }

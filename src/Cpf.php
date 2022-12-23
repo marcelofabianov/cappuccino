@@ -1,98 +1,90 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
-use Cappuccino\Enum\RegistrationDocumentEnum;
-use Cappuccino\Shared\ApplyMask;
-use Cappuccino\Interfaces\IRegistrationDocument;
-use Cappuccino\Exception\InvalidRegistrationDocumentException;
-
-class Cpf implements IRegistrationDocument
+final class Cpf
 {
-    private readonly string $value;
+    private string $value;
 
-    private function __construct(string $value)
+    public function __construct(string $value)
     {
-        $this->value = $value;
+        if (! self::isValid($value)) {
+            throw new \InvalidArgumentException('Invalid CPF');
+        }
+
+        $this->value = self::getNumbers($value);
     }
 
-    public function numbers(): string
+    public static function isValidFormat(string $value): bool
     {
-        return self::sanitize($this->value);
+        return preg_match('/^\d{3}\.\d{3}\.\d{3}-\d{2}$/', $value);
     }
 
-    public function format(): string
+    public static function isValid(string $cpf): bool
     {
-        return ApplyMask::custom($this->value, '###.###.###-##');
-    }
+        $cpf = self::getNumbers($cpf);
 
-    public static function isValid(string $value): bool
-    {
-        $doc = self::sanitize($value);
-
-        if (strlen($doc) != 11 or preg_match('/(\d)\1{10}/', $doc)) {
+        if (strlen($cpf) !== 11) {
             return false;
         }
 
-        for ($t = 9; $t < 11; $t++) {
-            for ($d = 0, $c = 0; $c < $t; $c++) {
-                $d += $doc[$c] * (($t + 1) - $c);
-            }
-            $d = ((10 * $d) % 11) % 10;
-            if ($doc[$c] != $d) {
-                return false;
-            }
+        if (str_starts_with($cpf, '000')) {
+            return false;
         }
-        return true;
+
+        $digits = self::calculateDigits($cpf);
+
+        return substr($cpf, 9, 2) === $digits;
     }
 
-    private static function mod(int|float $dividend): float
+    public function __toString(): string
     {
-        return round($dividend - (floor($dividend / 11) * 11));
+        return $this->value;
     }
 
-    public static function random(): self
+    public static function getNumbers(string $cpf): string
     {
-        $n1 = rand(0, 9);
-        $n2 = rand(0, 9);
-        $n3 = rand(0, 9);
-        $n4 = rand(0, 9);
-        $n5 = rand(0, 9);
-        $n6 = rand(0, 9);
-        $n7 = rand(0, 9);
-        $n8 = rand(0, 9);
-        $n9 = rand(0, 9);
-        $d1 = $n9 * 2 + $n8 * 3 + $n7 * 4 + $n6 * 5 + $n5 * 6 + $n4 * 7 + $n3 * 8 + $n2 * 9 + $n1 * 10;
-        $d1 = 11 - (self::mod($d1));
-        if ($d1 >= 10) {
+        return preg_replace('/\D/', '', $cpf);
+    }
+
+    public function getFormat(): string
+    {
+        return substr($this->value, 0, 3).'.'.
+            substr($this->value, 3, 3).'.'.
+            substr($this->value, 6, 3).'-'.
+            substr($this->value, 9, 2);
+    }
+
+    public static function random(): string
+    {
+        $cpf = '';
+        for ($i = 0; $i < 9; $i++) {
+            $cpf .= random_int(0, 9);
+        }
+
+        $cpf .= self::calculateDigits($cpf);
+
+        return $cpf;
+    }
+
+    private static function calculateDigits(string $cpf): string
+    {
+        $d1 = (10 * $cpf[0] + 9 * $cpf[1] + 8 * $cpf[2] + 7 * $cpf[3] + 6 * $cpf[4] + 5 * $cpf[5] + 4 * $cpf[6] + 3 * $cpf[7] + 2 * $cpf[8]) % 11;
+        if ($d1 < 2) {
             $d1 = 0;
+        } else {
+            $d1 = 11 - $d1;
         }
-        $d2 = $d1 * 2 + $n9 * 3 + $n8 * 4 + $n7 * 5 + $n6 * 6 + $n5 * 7 + $n4 * 8 + $n3 * 9 + $n2 * 10 + $n1 * 11;
-        $d2 = 11 - (self::mod($d2));
-        if ($d2 >= 10) {
+
+        $d2 = (11 * $cpf[0] + 10 * $cpf[1] + 9 * $cpf[2] + 8 * $cpf[3] + 7 * $cpf[4] + 6 * $cpf[5] + 5 * $cpf[6] + 4 * $cpf[7] + 3 * $cpf[8] + 2 * $d1) % 11;
+        if ($d2 < 2) {
             $d2 = 0;
-        }
-        $result = '' . $n1 . $n2 . $n3 . $n4 . $n5 . $n6 . $n7 . $n8 . $n9 . $d1 . $d2;
-
-        return new Cpf($result);
-    }
-
-    public static function sanitize(string $value): string
-    {
-        return preg_replace("/[^0-9]/", "", $value);
-    }
-
-    public static function create(string $value): Cpf
-    {
-        if (!self::isValid($value)) {
-            throw new InvalidRegistrationDocumentException(self::type());
+        } else {
+            $d2 = 11 - $d2;
         }
 
-        return new Cpf(self::sanitize($value));
-    }
-
-    public static function type(): RegistrationDocumentEnum
-    {
-        return RegistrationDocumentEnum::CPF;
+        return "{$d1}{$d2}";
     }
 }

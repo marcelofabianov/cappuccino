@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Cappuccino\Interfaces\IResponse;
@@ -8,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 class ErrorResponse implements IResponse
 {
     private readonly array $body;
+
     private readonly StatusCode $statusCode;
 
     private function __construct(string $message, StatusCode|null $statusCode)
@@ -18,7 +21,7 @@ class ErrorResponse implements IResponse
             'status' => [
                 'type' => 'error',
                 'message' => $message,
-                'statusCode' => $this->statusCode->code()
+                'statusCode' => $this->statusCode->code(),
             ],
             'data' => [],
         ];
@@ -29,8 +32,8 @@ class ErrorResponse implements IResponse
         return new JsonResponse($this->body, $this->statusCode->code());
     }
 
-    public static function create(string $message, StatusCode|null $statusCode = null): ErrorResponse
+    public static function create(string $message, StatusCode|null $statusCode = null): self
     {
-        return new ErrorResponse($message, $statusCode);
+        return new self($message, $statusCode);
     }
 }

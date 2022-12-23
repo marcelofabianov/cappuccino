@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
-use Carbon\CarbonInterface;
-use Carbon\Carbon;
-use ErrorException;
 use Cappuccino\Exception\DateInvalidFormatException;
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
+use ErrorException;
 
 class DeletedAt
 {
     private readonly CarbonInterface|null $value;
+
     private static string $defaultDateFormat = 'Y-m-d H:i:s';
 
     private function __construct(string|null $value)
@@ -28,13 +31,13 @@ class DeletedAt
         return $this->value;
     }
 
-    public static function create(string|null $value): DeletedAt
+    public static function create(string|null $value): self
     {
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             self::isValid($value);
         }
 
-        return new DeletedAt($value);
+        return new self($value);
     }
 
     public static function isValid(string $value): bool
@@ -52,7 +55,7 @@ class DeletedAt
     public function format(string|null $format = null): string|null
     {
         $date = null;
-        if (!is_null($this->value)) {
+        if (! is_null($this->value)) {
             try {
                 $defaultFormat = $_ENV['DEFAULT_DATE_FORMAT'] ?? self::$defaultDateFormat;
                 $date = $this->value->format($format ?? $defaultFormat);
@@ -60,6 +63,7 @@ class DeletedAt
                 throw new DateInvalidFormatException('DeletedAt');
             }
         }
+
         return $date;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino\Exception;
 
 use Cappuccino\Enum\RegistrationDocumentEnum;

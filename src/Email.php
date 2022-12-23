@@ -1,40 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Cappuccino\Exception\InvalidEmailException;
 
 class Email
 {
-    private readonly string $value;
+    private string $value;
 
     private function __construct(string $value)
     {
         $this->value = $value;
     }
 
-    public function get(): string
+    public function getValue(): string
     {
         return $this->value;
     }
 
     public static function isValid(string $value): bool
     {
-        $email = filter_var($value, FILTER_SANITIZE_EMAIL);
-
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            return false;
-        }
-
-        return true;
+        return filter_var(filter_var($value, FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL);
     }
 
-    public static function create(string $value): Email
+    public static function create(string $value): self
     {
-        if (!self::isValid($value)) {
+        if (! self::isValid($value)) {
             throw new InvalidEmailException();
         }
 
-        return new Email($value);
+        return new self($value);
     }
 }

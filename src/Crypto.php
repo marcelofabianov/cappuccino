@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
+use Cappuccino\Exception\FailDecryptException;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
-use Cappuccino\Exception\FailDecryptException;
 
 class Crypto
 {
     private readonly string $value;
+
     private bool $encrypt;
 
     private function __construct(string $value, bool $encrypt)
@@ -24,6 +27,7 @@ class Crypto
     private function encrypt(string $value): string
     {
         $this->encrypt = true;
+
         return Crypt::encrypt($value);
     }
 
@@ -45,8 +49,8 @@ class Crypto
         return $this->encrypt;
     }
 
-    public static function create(string $value, bool $encrypt = true): Crypto
+    public static function create(string $value, bool $encrypt = true): self
     {
-        return new Crypto($value, $encrypt);
+        return new self($value, $encrypt);
     }
 }

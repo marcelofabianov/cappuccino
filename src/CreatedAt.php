@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
+use Cappuccino\Exception\DateInvalidFormatException;
+use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use ErrorException;
-use Carbon\Carbon;
-use Cappuccino\Exception\DateInvalidFormatException;
 
 class CreatedAt
 {
     private readonly CarbonInterface $value;
+
     private static string $defaultDateFormat = 'Y-m-d H:i:s';
 
     private function __construct(string|null $value)
@@ -44,13 +47,13 @@ class CreatedAt
         return true;
     }
 
-    public static function create(string|null $value = null): CreatedAt
+    public static function create(string|null $value = null): self
     {
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             self::isValid($value);
         }
 
-        return new CreatedAt($value);
+        return new self($value);
     }
 
     public function format(string|null $format = null): string

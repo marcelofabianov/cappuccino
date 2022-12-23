@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Cappuccino\Exception\DateInvalidFormatException;
@@ -10,6 +12,7 @@ use ErrorException;
 class ExpiresIn
 {
     private readonly CarbonInterface $value;
+
     private static string $defaultDateFormat = 'Y-m-d H:i:s';
 
     private function __construct(string $value)
@@ -23,11 +26,11 @@ class ExpiresIn
         return $this->value;
     }
 
-    public static function create(string $value): ExpiresIn
+    public static function create(string $value): self
     {
         self::isValid($value);
 
-        return new ExpiresIn($value);
+        return new self($value);
     }
 
     public static function isValid(string $value): bool
@@ -57,6 +60,7 @@ class ExpiresIn
     {
         $compare = $compare ?? Carbon::now();
         $diff = $this->diff($compare, $measure);
+
         return $diff < 0;
     }
 
@@ -64,6 +68,7 @@ class ExpiresIn
     {
         $compare = $compare ?? Carbon::now();
         $diff = $this->diff($compare, $measure);
+
         return $diff >= 0;
     }
 

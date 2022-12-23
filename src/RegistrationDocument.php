@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Cappuccino\Enum\RegistrationDocumentEnum;
@@ -47,16 +49,17 @@ class RegistrationDocument
         if (Cnpj::isValid($value) or Cpf::isValid($value)) {
             return true;
         }
+
         return false;
     }
 
-    public static function create(string $value): RegistrationDocument
+    public static function create(string $value): self
     {
         if (Cnpj::isValid($value)) {
-            return new RegistrationDocument(Cnpj::create($value));
+            return new self(Cnpj::create($value));
         }
         if (Cpf::isValid($value)) {
-            return new RegistrationDocument(Cpf::create($value));
+            return new self(Cpf::create($value));
         }
 
         throw new FailCreateRegistrationDocumentException();

@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
+use Cappuccino\Exception\DateInvalidFormatException;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
-use Cappuccino\Exception\DateInvalidFormatException;
 use ErrorException;
 
 class UpdatedAt
 {
     private readonly CarbonInterface $value;
+
     private static string $defaultDateFormat = 'Y-m-d H:i:s';
 
     private function __construct(string|null $value)
@@ -28,13 +31,13 @@ class UpdatedAt
         return $this->value;
     }
 
-    public static function create(string|null $value = null): UpdatedAt
+    public static function create(string|null $value = null): self
     {
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             self::isValid($value);
         }
 
-        return new UpdatedAt($value);
+        return new self($value);
     }
 
     public static function isValid(string $value): bool

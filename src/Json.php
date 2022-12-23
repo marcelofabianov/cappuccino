@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use stdClass;
@@ -18,6 +20,7 @@ class Json
         if (is_array($this->value)) {
             return json_encode($this->value, JSON_THROW_ON_ERROR);
         }
+
         return false;
     }
 
@@ -26,6 +29,7 @@ class Json
         if (is_string($this->value)) {
             return json_decode($this->value, false, 512, JSON_THROW_ON_ERROR);
         }
+
         return false;
     }
 

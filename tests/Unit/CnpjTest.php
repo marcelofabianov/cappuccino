@@ -2,32 +2,56 @@
 
 use Cappuccino\Cnpj;
 
-test('must validate invalid cnpj as false', function () {
-    $result = Cnpj::isValid('30225497000101');
-    expect($result)->toBeFalse();
+it('should validate the CNPJ format as true', function () {
+    expect(Cnpj::isValidFormat('63.836.040/0001-34'))
+        ->toBeTrue();
 });
 
-test('must validate a valid cnpj as true', function () {
-    $result = Cnpj::isValid('30225497000107');
-    expect($result)->toBeTrue();
+it('should validate the CNPJ format as false', function () {
+    expect(Cnpj::isValidFormat('00.000.000/0000/00'))
+        ->toBeFalse()
+        ->and(Cnpj::isValidFormat('00000000000000'))
+        ->toBeFalse();
 });
 
-test('must create an instance from a numeric CNPJ', function () {
-    $cnpj = Cnpj::create('30225497000107');
-    expect($cnpj->numbers())->toBe('30225497000107');
+it('should return only numbers', function () {
+    $cnpj = new Cnpj('29.281.372/0001-90');
+    expect($cnpj)->toEqual('29281372000190');
 });
 
-test('must create an instance of a formatted cnpj', function () {
-    $cnpj = Cnpj::create('30.225.497/0001-07');
-    expect($cnpj->format())->toBe('30.225.497/0001-07');
+it('should return formatted CNPJ', function () {
+    $cnpj = new Cnpj('39599026000196');
+    expect('39.599.026/0001-96')->toEqual($cnpj->getFormat());
 });
 
-test('must create a cnpj through a formatted cnpj and get a numeric cnpj', function () {
-    $cnpj = Cnpj::create('30.225.497/0001-07');
-    expect($cnpj->numbers())->toBe('30225497000107');
+it('should return false when the CNPJ is not valid', function () {
+    expect(Cnpj::isValid('11.444.777/0001-62'))
+        ->toBeFalse();
 });
 
-test('should create a numeric cnpj instance and get a formatted cnpj', function () {
-    $cnpj = Cnpj::create('30225497000107');
-    expect($cnpj->format())->toBe('30.225.497/0001-07');
+it('should return true when the CNPJ is valid', function () {
+    expect(Cnpj::isValid('11.444.777/0001-61'))
+        ->toBeTrue();
+});
+
+it('should return false when CNPJ has more than 14 digits', function () {
+    expect(Cnpj::isValid('11.444.777/0001-543'))
+        ->toBeFalse();
+});
+
+it('should return false when the number of digits in the CNPJ is less than 14.', function () {
+    expect(Cnpj::isValid('11.444.777/001-54'))
+        ->toBeFalse();
+});
+
+it('should return false when CNPJ starts with 00', function () {
+    expect(Cnpj::isValid('00.000.000/0000-00'))
+        ->toBeFalse();
+});
+
+it('should generate a valid CNPJ', function () {
+    $cnpj = Cnpj::random();
+
+    expect(Cnpj::isValid($cnpj))
+        ->toBeTrue();
 });

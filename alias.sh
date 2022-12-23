@@ -1,0 +1,13 @@
+alias cpp.='cat alias.sh'
+alias cpp.ip='docker inspect cpp_http | grep "IPAddress"'
+alias cpp.watch="docker compose up"
+alias cpp.up="docker compose up -d"
+alias cpp.down="docker compose down"
+alias cpp.bash="docker exec -it cpp bash"
+alias cpp.exec="docker exec cpp"
+alias cpp.php="cpp.exec php"
+alias cpp.composer="cpp.exec composer"
+alias cpp.lint="cpp.php ./vendor/bin/pint"
+alias cpp.captainhook="cpp.php ./vendor/bin/captainhook"
+alias cpp.psalm="cpp.php ./vendor/bin/psalm"
+alias cpp.pest="cpp.php ./vendor/bin/pest"

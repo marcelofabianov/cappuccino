@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Cappuccino\Shared\ApplyMask;
@@ -30,7 +32,7 @@ class ZipCode
 
     public static function sanitize(string $value): string
     {
-        return preg_replace("/[^0-9]/", "", $value);
+        return preg_replace('/[^0-9]/', '', $value);
     }
 
     public static function random(): string
@@ -40,10 +42,10 @@ class ZipCode
 
     public static function create(string $value): self
     {
-        if (!self::isValid($value)) {
+        if (! self::isValid($value)) {
             throw new \Exception('Zipcode invalid!');
         }
 
-        return new ZipCode(self::sanitize($value));
+        return new self(self::sanitize($value));
     }
 }

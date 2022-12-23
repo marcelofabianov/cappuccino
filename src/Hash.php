@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Illuminate\Support\Facades\Hash as HashMake;
@@ -18,9 +20,9 @@ class Hash
         return $this->value;
     }
 
-    public static function make(string $value): Hash
+    public static function make(string $value): self
     {
-        return new Hash(HashMake::make($value));
+        return new self(HashMake::make($value));
     }
 
     public static function check(string $value, string $hash): bool

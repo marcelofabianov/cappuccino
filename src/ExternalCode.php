@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cappuccino;
 
 use Cappuccino\Exception\ExternalCodeInvalidException;
@@ -11,7 +13,7 @@ class ExternalCode
 
     private function __construct(string|int|null $value)
     {
-        if (!is_null($value) and !self::isValid($value)) {
+        if (! is_null($value) and ! self::isValid($value)) {
             throw new ExternalCodeInvalidException();
         }
 
@@ -24,6 +26,7 @@ class ExternalCode
             return true;
         }
         $id = (int) $id;
+
         return $id > 0;
     }
 
@@ -41,7 +44,7 @@ class ExternalCode
         return $this->value;
     }
 
-    public static function create(string|int|null $value = null): ExternalCode
+    public static function create(string|int|null $value = null): self
     {
         return new self($value);
     }

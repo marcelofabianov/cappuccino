@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+    cpp:
+        container_name: cpp
+        image: marcelofabianov/php-8.1-fpm-pgsql:latest
+        restart: always
+        working_dir: /var/www/html
+        environment:
+            TZ: '${TZ:-}'
+        volumes:
+            - .:/var/www/html
+        networks:
+            - cpp_network
+        ports:
+            - "9000:9000"
+            - "9003:9003"
+            - "9191:9191"
+networks:
+    cpp_network:
+        driver: bridge
