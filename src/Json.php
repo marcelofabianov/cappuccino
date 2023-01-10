@@ -15,6 +15,11 @@ class Json
         $this->value = $value;
     }
 
+    public function getValue(): array|string
+    {
+        return $this->value;
+    }
+
     public function encode(): string|bool
     {
         if (is_array($this->value)) {
