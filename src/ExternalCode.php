@@ -22,12 +22,15 @@ class ExternalCode
 
     public static function isValid(string|int $id): bool
     {
-        if (Uuid::isValid($id)) {
+        if (is_int($id) and $id > 0) {
             return true;
         }
-        $id = (int) $id;
 
-        return $id > 0;
+        if (is_string($id) and Uuid::isValid($id)) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function make(bool $int = false): string|int
